@@ -2,10 +2,10 @@ pull:
 		git pull
 
 init:
-	terraform: init
+	terraform init
 
 destroy:
-	terraform: destroy
+	terraform destroy
 
 
 
