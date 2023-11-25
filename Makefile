@@ -7,7 +7,12 @@ init: pull
 destroy:
 	terraform destroy
 
+plan-california: init
+	cd VPC && terraform workspace new california || terraform workspace select california && terraform plan -var-file ../ENVS/us-west-1/california.tfvars
 
+
+plan-virginia: init
+	cd VPC && terraform workspace new virginia || terraform workspace select virginia && terraform plan -var-file ../ENVS/us-east-1/virginia.tfvars
 
 virginia: init
 	cd VPC && terraform workspace new virginia || terraform workspace select virginia && terraform apply --auto-approve -var-file ../ENVS/us-east-1/virginia.tfvars
