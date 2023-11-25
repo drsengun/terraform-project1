@@ -38,7 +38,7 @@ california-destroy: init
 
 
 all: init
-	 make virginia && make ohio && make california 
+	 make ohio && make california 
 
 destroy-all: init
 	 make ohio-destroy && make virginia-destroy && make california-destroy
