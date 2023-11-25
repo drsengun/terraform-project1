@@ -31,7 +31,7 @@ module "vpc" {
 }
 
 
-module "vpc" {
+module "vpc-california" {
   source = "terraform-aws-modules/vpc/aws"
   count = var.region == "california" ? 0 : 1
 
