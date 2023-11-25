@@ -35,7 +35,7 @@ module "vpc-california" {
   source = "terraform-aws-modules/vpc/aws"
   count = var.region == "california" ? 0 : 1
 
-  name = "my-vpc"
+  name = "my-california-vpc"
   cidr = "10.0.0.0/16"
 
 
