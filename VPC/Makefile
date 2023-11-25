@@ -14,7 +14,7 @@ plan-california: init
 plan-virginia: init
 	 terraform workspace new virginia || terraform workspace select virginia && terraform plan -var-file ../ENVS/us-east-1/virginia.tfvars
 
-plan-all:
+plan-all: init
 	make plan-california && make plan-virginia
 
 virginia: init
