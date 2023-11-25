@@ -2,7 +2,7 @@ pull:
 		git pull
 
 init: pull
-	terraform init
+	cd VPC && terraform init
 
 destroy:
 	terraform destroy
