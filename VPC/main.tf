@@ -5,7 +5,8 @@ resource "aws_key_pair" "terraform-project" {
 
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
- 
+  count = var.region == "california" ? 1 : 0
+
   name = "my-vpc"
   cidr = "10.0.0.0/16"
 
@@ -33,7 +34,7 @@ module "vpc" {
 
 module "vpc-california" {
   source = "terraform-aws-modules/vpc/aws"
-  count = var.region == "california" ? 1 : 0
+  count = var.region == "california" ? 0 : 1
 
   name = "my-california-vpc"
   cidr = "10.0.0.0/16"
@@ -42,7 +43,7 @@ module "vpc-california" {
   azs             = [
     data.aws_availability_zones.available.names[0],
     data.aws_availability_zones.available.names[1],
-  
+
     ]
 
 
