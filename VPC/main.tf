@@ -5,7 +5,7 @@ resource "aws_key_pair" "terraform-project" {
 
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
-  count = var.region == "california" ? 1 : 0
+ 
   name = "my-vpc"
   cidr = "10.0.0.0/16"
 
