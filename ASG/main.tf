@@ -51,7 +51,7 @@ resource "aws_lb" "test" {
   name               = "test-lb-tf"
   internal           = false
   load_balancer_type = "application"
-
+  depends_on = [module.vpc]
   subnets            = "${(module.vpc.public_subnets)}"
 
   enable_deletion_protection = false
