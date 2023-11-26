@@ -1,4 +1,4 @@
-data "aws_ami" "amazon-linux-2" {
+data "aws_ami" "amazon-linux" {
   most_recent = true
 
 
@@ -30,7 +30,7 @@ resource "aws_autoscaling_group" "web-asg" {
 
 resource "aws_launch_template" "as_conf" {
   name_prefix   = "terraform-lc-example-"
-  image_id      = data.aws_ami.amazon-linux-2.id
+  image_id      = data.aws_ami.amazon-linux.id
   instance_type = "t2.micro"
     lifecycle {
     create_before_destroy = true
