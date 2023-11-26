@@ -45,6 +45,7 @@ data "aws_availability_zones" "available" {
 
 module "vpc" {
   source = "../VPC/"
+  region = var.region
 }
 
 
