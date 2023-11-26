@@ -53,7 +53,7 @@ module "asg" {
   desired_capacity          = 1
   wait_for_capacity_timeout = 0
   health_check_type         = "EC2"
-  vpc_zone_identifier       =  module.vpc.public_subnets
+  vpc_zone_identifier       =  ["subnet-0942ea9c940eb3131"]
 
 
 
