@@ -1,11 +1,18 @@
-
-
-data "aws_ami" "ubuntu" {
+data "aws_ami" "amazon-linux-2" {
   most_recent = true
 
-  owners = ["099720109477"] # Canonical
-}
 
+  filter {
+    name   = "owner-alias"
+    values = ["amazon"]
+  }
+
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm*"]
+  }
+}
 resource "aws_autoscaling_group" "web-asg" {
   launch_template {
    id =  aws_launch_template.as_conf.id
@@ -23,7 +30,7 @@ resource "aws_autoscaling_group" "web-asg" {
 
 resource "aws_launch_template" "as_conf" {
   name_prefix   = "terraform-lc-example-"
-  image_id      = "ami-06d4b7182ac3480fa"
+  image_id      = data.aws_ami.amazon-linux-2.id
   instance_type = "t2.micro"
     lifecycle {
     create_before_destroy = true
