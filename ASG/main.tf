@@ -41,6 +41,14 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+
+
+module "vpc" {
+  source = "../VPC/"
+}
+
+
+
 resource "aws_lb" "test" {
   count = var.region != "us-west-1" ? 1 : 0
   name               = "test"
