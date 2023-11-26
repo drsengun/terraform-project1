@@ -1,4 +1,6 @@
 
+
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -47,6 +49,6 @@ resource "aws_lb" "test" {
 
   subnets            = "${(module.vpc.public_subnets[0])}"
 
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
 }
