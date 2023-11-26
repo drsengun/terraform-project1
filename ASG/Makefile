@@ -1,7 +1,7 @@
 pull:
 		git pull
 
-init: pull
+init: 
 	 terraform init
 
 destroy:

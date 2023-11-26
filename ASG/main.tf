@@ -41,26 +41,40 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
-
-
-module "vpc" {
-  source = "../VPC/"
-  
-}
-
-# module "vpc-california" {
-#   source = "../VPC/"
-  
-# }
-
-
 resource "aws_lb" "test" {
-  name               = "test-lb-tf"
+  count = var.region != "us-west-1" ? 1 : 0
+  name               = "test"
   internal           = false
   load_balancer_type = "application"
-  depends_on = [module.vpc]
   subnets            = "${(module.vpc.public_subnets)}"
 
   enable_deletion_protection = false
   
 }
+
+# resource "aws_lb" "test-california" {
+#   count = var.region == "us-west-1" ? 1 : 0
+#   name               = "test-lb-tf"
+#   internal           = false
+#   load_balancer_type = "application"
+#   depends_on = [module.vpc]
+#   subnets            = "${(module.vpc-california.public_subnets)}"
+
+#   enable_deletion_protection = false
+  
+# }
+
+# resource "aws_autoscaling_group" "web-asg-california" {
+#   launch_template {
+#    id =  aws_launch_template.as_conf.id
+#    version = "$Latest"
+#     }
+  
+#   min_size             = 1
+#   max_size             = 3
+#   name                = "web-asg"
+#   vpc_zone_identifier = "${(module.vpc-california.public_subnets)}"
+#   desired_capacity    = 2
+  
+
+# }
