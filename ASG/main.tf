@@ -9,7 +9,7 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_autoscaling_group" "web-asg" {
   launch_template {
-   id =  aws_launch_template.as_conf.name
+   id =  aws_launch_template.as_conf.id
    version = "$Latest"
     }
   min_size             = 1
@@ -24,6 +24,9 @@ resource "aws_launch_template" "as_conf" {
   name_prefix   = "terraform-lc-example-"
   image_id      = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
+    lifecycle {
+    create_before_destroy = true
+  }
 }
 
 data "aws_availability_zones" "available" {
