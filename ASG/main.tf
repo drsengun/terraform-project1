@@ -1,6 +1,5 @@
 
 
-
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -12,14 +11,16 @@ resource "aws_autoscaling_group" "web-asg" {
    id =  aws_launch_template.as_conf.id
    version = "$Latest"
     }
+  
   min_size             = 1
   max_size             = 3
   name                = "web-asg"
-  vpc_zone_identifier = "${(module.vpc.public_subnets[0])}"
+  vpc_zone_identifier = "${(module.vpc.public_subnets)}"
   desired_capacity    = 2
-
+  
 
 }
+
 resource "aws_launch_template" "as_conf" {
   name_prefix   = "terraform-lc-example-"
   image_id      = data.aws_ami.ubuntu.id
@@ -33,16 +34,17 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+
+
 module "vpc" {
   source = "../VPC/"
-}
-module "vpc-california" {
-  source = "../VPC/"
-  # Other module configuration options go here
+  
 }
 
-
-
+# module "vpc-california" {
+#   source = "../VPC/"
+  
+# }
 
 
 resource "aws_lb" "test" {
@@ -50,8 +52,8 @@ resource "aws_lb" "test" {
   internal           = false
   load_balancer_type = "application"
 
-  subnets            = "${(module.vpc.public_subnets[0])}"
+  subnets            = "${(module.vpc.public_subnets)}"
 
   enable_deletion_protection = false
-
+  
 }
