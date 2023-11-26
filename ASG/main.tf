@@ -55,16 +55,6 @@ module "asg" {
   vpc_zone_identifier       = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[1], data.aws_availability_zones.available.names[2]]
 
 
-  instance_refresh = {
-    strategy = "Rolling"
-    preferences = {
-      checkpoint_delay       = 600
-      checkpoint_percentages = [35, 70, 100]
-      instance_warmup        = 300
-      min_healthy_percentage = 50
-    }
-    triggers = ["tag"]
-  }
 
   # Launch template
   launch_template_name        = "example-asg"
@@ -103,9 +93,11 @@ module "asg" {
     }
   ]
 
-  placement = {
-    availability_zone = "us-west-1b"
-  }
+  placement = [
+    data.aws_availability_zones.available.names[0],
+    data.aws_availability_zones.available.names[1],
+    data.aws_availability_zones.available.names[2]
+    ]
 
 
 }
