@@ -17,8 +17,9 @@
 #   state = "available"
 # }
 
-module "vpc"{
-  source = "../VPC"
+module "vpc" {
+  source = "terraform-aws-modules/vpc/aws"
+
 }
 # resource “aws_autoscaling_group” “three-tier-web-asg” {
 #   name                 = “three-tier-web-asg”
@@ -52,7 +53,8 @@ module "asg" {
   desired_capacity          = 1
   wait_for_capacity_timeout = 0
   health_check_type         = "EC2"
-  vpc_zone_identifier       = "${(module.vpc.public_subnets[1])}"
+  vpc_zone_identifier       =  module.vpc.public_subnets
+
 
 
 
