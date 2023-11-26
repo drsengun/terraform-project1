@@ -23,7 +23,7 @@ resource "aws_autoscaling_group" "web-asg" {
 
 resource "aws_launch_template" "as_conf" {
   name_prefix   = "terraform-lc-example-"
-  image_id      = data.aws_ami.ubuntu.id
+  image_id      = "ami-06d4b7182ac3480fa"
   instance_type = "t2.micro"
     lifecycle {
     create_before_destroy = true
