@@ -85,7 +85,7 @@ module "asg" {
       delete_on_termination = true
       description           = "eth0"
       device_index          = 0
-      security_groups       = ["sg-12345678"]
+      security_groups       = [aws_security_group.sec-group]
     },
     {
       delete_on_termination = true
