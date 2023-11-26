@@ -93,11 +93,9 @@ module "asg" {
     }
   ]
 
-  placement = [
-    data.aws_availability_zones.available.names[0],
-    data.aws_availability_zones.available.names[1],
-    data.aws_availability_zones.available.names[2]
-    ]
+  placement = {
+    availability_zone = "${(data.aws_availability_zones.available.names[0])}"
+  }
 
 
 }
