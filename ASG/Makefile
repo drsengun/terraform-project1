@@ -10,6 +10,8 @@ destroy:
 plan-california: init
 	terraform workspace new california || terraform workspace select california && terraform plan -var-file ../ENVS/us-west-1/california.tfvars
 
+plan-ohio: init
+	terraform workspace new ohio || terraform workspace select ohio && terraform plan -var-file ../ENVS/us-east-2/ohio.tfvars
 
 plan-virginia: init
 	 terraform workspace new virginia || terraform workspace select virginia && terraform plan -var-file ../ENVS/us-east-1/virginia.tfvars
