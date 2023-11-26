@@ -9,3 +9,4 @@ output "private_subnets" {
 output "public_subnets" {
   value = concat([for vpc in module.vpc : vpc.public_subnets], [for vpc in module.vpc-california : vpc.public_subnets])
 }
+
