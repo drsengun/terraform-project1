@@ -35,7 +35,7 @@ module "vpc" {
   region = var.region
 }
 module "vpc-california" {
-  
+  count  = var.region == "us-west-1" ? 1 : 0
   source = "../VPC/"
   region = "us-west-1"
 }
