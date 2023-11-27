@@ -7,19 +7,19 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+
+locals {
+  vpc_availability_zones = length(data.aws_availability_zones.available.names) > 0 ? [data.aws_availability_zones.available.names[0]] : []
+}
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
-  count = var.region != "us-west-1" ? 1 : 0
+  #count = var.region != "us-west-1" ? 1 : 0
 
   name = "my-vpc"
   cidr = "10.0.0.0/16"
 
 
-  azs             = [
-    data.aws_availability_zones.available.names[0],
-    data.aws_availability_zones.available.names[1],
-    data.aws_availability_zones.available.names[2],
-    ]
+  azs             = toset(data.aws_availability_zones.available.names)
 
 
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
@@ -63,55 +63,55 @@ module "vpc" {
 }
 
 
-module "vpc-california" {
-  source = "terraform-aws-modules/vpc/aws"
-  count = var.region == "us-west-1" ? 1 : 0
+# module "vpc-california" {
+#   source = "terraform-aws-modules/vpc/aws"
+#   count = var.region == "us-west-1" ? 1 : 0
 
-  name = "my-california-vpc"
-  cidr = "10.0.0.0/16"
-
-
-  azs             = [
-    data.aws_availability_zones.available.names[0],
-    data.aws_availability_zones.available.names[1],
-
-    ]
+#   name = "my-california-vpc"
+#   cidr = "10.0.0.0/16"
 
 
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
+#   azs             = [
+#     data.aws_availability_zones.available.names[0],
+#     data.aws_availability_zones.available.names[1],
 
-  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
+#     ]
 
-  enable_nat_gateway = true
-  enable_vpn_gateway = true
 
-  manage_default_security_group = true
+#   private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
 
-  default_security_group_ingress = [
-    {
-      description = "HTTP"
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      cidr_blocks = "0.0.0.0/0"
-    },
-    {
-      description = "HTTPS"
-      from_port   = 443
-      to_port     = 443
-      protocol    = "tcp"
-      cidr_blocks = "0.0.0.0/0"
-    },
-  ]
+#   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
 
-  default_security_group_egress = [
-    {
-      from_port        = 0
-      to_port          = 0
-      protocol         = "-1"
-      cidr_blocks      = "0.0.0.0/0"
+#   enable_nat_gateway = true
+#   enable_vpn_gateway = true
+
+#   manage_default_security_group = true
+
+#   default_security_group_ingress = [
+#     {
+#       description = "HTTP"
+#       from_port   = 80
+#       to_port     = 80
+#       protocol    = "tcp"
+#       cidr_blocks = "0.0.0.0/0"
+#     },
+#     {
+#       description = "HTTPS"
+#       from_port   = 443
+#       to_port     = 443
+#       protocol    = "tcp"
+#       cidr_blocks = "0.0.0.0/0"
+#     },
+#   ]
+
+#   default_security_group_egress = [
+#     {
+#       from_port        = 0
+#       to_port          = 0
+#       protocol         = "-1"
+#       cidr_blocks      = "0.0.0.0/0"
       
-    }
-  ]
-}
+#     }
+#   ]
+# }
 
