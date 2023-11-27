@@ -47,7 +47,10 @@ module "vpc" {
   source = "../VPC/"
   region = var.region
 }
-
+module "vpc-california" {
+  source = "../VPC/"
+  region = var.region
+}
 
 
 resource "aws_lb" "test" {
@@ -61,29 +64,28 @@ resource "aws_lb" "test" {
   
 }
 
-# resource "aws_lb" "test-california" {
-#   count = var.region == "us-west-1" ? 1 : 0
-#   name               = "test-lb-tf"
-#   internal           = false
-#   load_balancer_type = "application"
-#   depends_on = [module.vpc]
-#   subnets            = "${(module.vpc-california.public_subnets)}"
+resource "aws_lb" "test-california" {
+  count = var.region == "us-west-1" ? 1 : 0
+  name               = "test-lb-tf"
+  internal           = false
+  load_balancer_type = "application"
+  subnets            = "${(module.vpc-california.public_subnets)}"
 
-#   enable_deletion_protection = false
+  enable_deletion_protection = false
   
-# }
+}
 
-# resource "aws_autoscaling_group" "web-asg-california" {
-#   launch_template {
-#    id =  aws_launch_template.as_conf.id
-#    version = "$Latest"
-#     }
+resource "aws_autoscaling_group" "web-asg-california" {
+  launch_template {
+   id =  aws_launch_template.as_conf.id
+   version = "$Latest"
+    }
   
-#   min_size             = 1
-#   max_size             = 3
-#   name                = "web-asg"
-#   vpc_zone_identifier = "${(module.vpc-california.public_subnets)}"
-#   desired_capacity    = 2
+  min_size             = 1
+  max_size             = 3
+  name                = "web-asg"
+  vpc_zone_identifier = "${(module.vpc-california.public_subnets)}"
+  desired_capacity    = 2
   
 
-# }
+}
