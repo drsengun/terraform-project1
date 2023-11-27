@@ -14,6 +14,7 @@ data "aws_ami" "amazon-linux" {
   }
 }
 resource "aws_autoscaling_group" "web-asg" {
+   count = var.region != "us-west-1" ? 1 : 0
   launch_template {
    id =  aws_launch_template.as_conf.id
    version = "$Latest"
@@ -76,6 +77,7 @@ resource "aws_lb" "test-california" {
 }
 
 resource "aws_autoscaling_group" "web-asg-california" {
+    count = var.region == "us-west-1" ? 1 : 0
   launch_template {
    id =  aws_launch_template.as_conf.id
    version = "$Latest"
