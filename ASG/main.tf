@@ -13,21 +13,6 @@ data "aws_ami" "amazon-linux" {
     values = ["amzn2-ami-hvm*"]
   }
 }
-resource "aws_autoscaling_group" "web-asg" {
-   count = var.region != "us-west-1" ? 1 : 0
-  launch_template {
-   id =  aws_launch_template.as_conf.id
-   version = "$Latest"
-    }
-  
-  min_size             = 1
-  max_size             = 3
-  name                = "web-asg"
-  vpc_zone_identifier = "${(module.vpc.public_subnets)}"
-  desired_capacity    = 2
-  
-
-}
 
 resource "aws_launch_template" "as_conf" {
   name_prefix   = "terraform-lc-example-"
@@ -45,15 +30,30 @@ data "aws_availability_zones" "available" {
 
 
 module "vpc" {
+  count = var.region != "us-west-1" ? 1 : 0
   source = "../VPC/"
   region = var.region
 }
 module "vpc-california" {
+  count = var.region != "us-west-1" ? 1 : 0
   source = "../VPC/"
   region = var.region
 }
 
-
+resource "aws_autoscaling_group" "web-asg" {
+   count = var.region != "us-west-1" ? 1 : 0
+  launch_template {
+   id =  aws_launch_template.as_conf.id
+   version = "$Latest"
+    }
+  
+  min_size             = 1
+  max_size             = 3
+  name                = "web-asg"
+  vpc_zone_identifier = "${(module.vpc.public_subnets)}"
+  desired_capacity    = 2
+  
+}
 resource "aws_lb" "test" {
   count = var.region != "us-west-1" ? 1 : 0
   name               = "test"
