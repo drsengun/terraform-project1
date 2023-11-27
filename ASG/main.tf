@@ -30,14 +30,14 @@ data "aws_availability_zones" "available" {
 
 
 module "vpc" {
-  count = var.region != "us-west-1" ? 1 : 0
-  source = "../VPC/"
   
+  source = "../VPC/"
+  region = var.region
 }
 module "vpc-california" {
-  count = var.region != "us-west-1" ? 1 : 0
-  source = "../VPC/"
   
+  source = "../VPC/"
+  region = "us-west-1"
 }
 
 resource "aws_autoscaling_group" "web-asg" {
