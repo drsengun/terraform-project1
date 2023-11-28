@@ -6,7 +6,7 @@ resource "aws_db_subnet_group" "db_sub_group" {
 
 # Create DB instance
 resource "aws_db_instance" "db_instance" {
-  allocated_storage = 200
+  allocated_storage = 20
   storage_type = "gp2"
   engine = "mysql"
   engine_version = "8.0.28"
@@ -18,7 +18,7 @@ resource "aws_db_instance" "db_instance" {
   multi_az = true
   publicly_accessible = false
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
     ignore_changes = all
   }
 }
@@ -62,7 +62,7 @@ resource "aws_launch_template" "db_template" {
   security_group_names = [aws_security_group.rds_allow_rule.name]
   user_data = file("userdata.sh")
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
     ignore_changes = all
   }
   network_interfaces {

@@ -2,4 +2,4 @@
 
 
   #install mysql client
-  sudo yum install -y mysql
+  yum install -y mysql
