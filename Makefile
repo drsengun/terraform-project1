@@ -29,11 +29,11 @@ destroy-virginia:
 
 build-california: init
 
-		cd VPC/ && terraform workspace new california || terraform workspace select california && terraform apply -var-file ../ENVS/us-west-1/california.tfvars -auto-approve
+		cd VPC/ && terraform workspace new california || terraform workspace select california && terraform apply -var-file ENVS/us-west-1/california.tfvars -auto-approve
 
-		cd ASG/ && terraform workspace new california || terraform workspace select california && terraform apply -var-file ../ENVS/us-west-1/california.tfvars -auto-approve
+		cd ASG/ && terraform workspace new california || terraform workspace select california && terraform apply -var-file ENVS/us-west-1/california.tfvars -auto-approve
 
-		cd RDS/ && terraform workspace new california || terraform workspace select california && terraform apply -var-file ../ENVS/us-west-1/california.tfvars -auto-approve
+		cd RDS/ && terraform workspace new california || terraform workspace select california && terraform apply -var-file ENVS/us-west-1/california.tfvars -auto-approve
 
 
 destroy-california:
