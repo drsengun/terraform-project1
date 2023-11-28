@@ -69,4 +69,4 @@ destroy-all: init
 	 make ohio-destroy && make virginia-destroy && make california-destroy
 
 cleanup:
-	find / -type d  -name ".terraform" -exec rm -rf {} \; 
+	sudo find / -type d  -name ".terraform" -exec rm -rf {} \; 
