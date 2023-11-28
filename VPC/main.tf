@@ -1,7 +1,4 @@
-resource "aws_key_pair" "terraform-project" {
-  key_name = "terraform-project"
-  public_key = file("~/.ssh/id_rsa.pub")
-}
+
 
 data "aws_availability_zones" "available" {
   state = "available"
@@ -22,19 +19,21 @@ module "vpc" {
   ] : [
     "10.0.1.0/24", "10.0.2.0/24",
   ]
-  
+
   public_subnets = var.region != "us-west-1" ? [
     "10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"
   ] : [
     "10.0.101.0/24", "10.0.102.0/24", 
   ]
 
+  map_public_ip_on_launch = true
+  create_database_subnet_group = true
   enable_nat_gateway = true
   enable_vpn_gateway = true
 
   enable_dns_support = true
   enable_dns_hostnames = true
-
+  
   manage_default_security_group = true
 
   default_security_group_ingress = [
