@@ -47,7 +47,6 @@ resource "aws_launch_template" "as_conf" {
   name_prefix   = "terraform-lc-example-"
   image_id      = data.aws_ami.amazon-linux.id
   instance_type = "t2.micro"
-  key_name = "terraform-projec"
     lifecycle {
     create_before_destroy = true
   }

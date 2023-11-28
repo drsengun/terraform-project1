@@ -71,3 +71,8 @@ module "db" {
     },
   ]
 }
+
+module "vpc" {
+  source = "../VPC/"
+  region = var.region
+}
