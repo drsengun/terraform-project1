@@ -60,7 +60,7 @@ resource "aws_launch_template" "db_template" {
   instance_type = "t2.micro"
   key_name = "terraform-project"
   security_group_names = [aws_security_group.rds_allow_rule.name]
-  user_data = file("userdata.sh")
+  user_data = base64encode(file("userdata.sh"))
   lifecycle {
     prevent_destroy = false
     ignore_changes = all
