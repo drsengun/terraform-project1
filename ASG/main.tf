@@ -1,44 +1,31 @@
 data "aws_ami" "amazon-linux" {
   most_recent = true
-
-
   filter {
     name   = "owner-alias"
     values = ["amazon"]
   }
-
-
   filter {
     name   = "name"
     values = ["amzn2-ami-hvm*"]
   }
 }
 
-
-
 data "aws_availability_zones" "available" {
   state = "available"
 }
 
 
-# module "vpc-california" {
-#   source = "../VPC/"
-#   region = "us-west-1"
-# }
 module "vpc" {
   source = "../VPC/"
   region = var.region
 }
 
-
-
 resource "aws_autoscaling_group" "web-asg" {
-   #count = var.region != "us-west-1" ? 1 : 0
+ 
   launch_template {
    id =  aws_launch_template.as_conf.id
    version = "$Latest"
     }
-  
   min_size             = 1
   max_size             = 3
   name                = "web-asg"
@@ -47,13 +34,11 @@ resource "aws_autoscaling_group" "web-asg" {
   
 }
 resource "aws_lb" "test" {
-  #count = var.region != "us-west-1" ? 1 : 0
+  
   name               = "test"
   internal           = false
   load_balancer_type = "application"
   subnets            = "${(module.vpc.public_subnets)}"
-  
-
   enable_deletion_protection = false
   
 }
