@@ -14,14 +14,7 @@ data "aws_ami" "amazon-linux" {
   }
 }
 
-resource "aws_launch_template" "as_conf" {
-  name_prefix   = "terraform-lc-example-"
-  image_id      = data.aws_ami.amazon-linux.id
-  instance_type = "t2.micro"
-    lifecycle {
-    create_before_destroy = true
-  }
-}
+
 
 data "aws_availability_zones" "available" {
   state = "available"
@@ -59,7 +52,18 @@ resource "aws_lb" "test" {
   internal           = false
   load_balancer_type = "application"
   subnets            = "${(module.vpc.public_subnets)}"
+  
 
   enable_deletion_protection = false
   
+}
+
+resource "aws_launch_template" "as_conf" {
+  name_prefix   = "terraform-lc-example-"
+  image_id      = data.aws_ami.amazon-linux.id
+  instance_type = "t2.micro"
+  key_name = "terraform-projec"
+    lifecycle {
+    create_before_destroy = true
+  }
 }

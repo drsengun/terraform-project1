@@ -57,6 +57,13 @@ module "vpc" {
       protocol    = "tcp"
       cidr_blocks = "0.0.0.0/0"
     },
+    {
+      description = "SSH access from anywhere"
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = "0.0.0.0/0"
+    },
   ]
 
   default_security_group_egress = [
