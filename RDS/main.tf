@@ -14,7 +14,7 @@ module "db" {
 
   iam_database_authentication_enabled = true
 
-  vpc_security_group_ids = ["${(module.vpc.public_subnets)}"]
+  vpc_security_group_ids = flatten([for subnet in module.vpc.public_subnets : subnet.security_group_ids])
 
   maintenance_window = "Mon:00:00-Mon:03:00"
   backup_window      = "03:00-06:00"
