@@ -14,7 +14,7 @@ resource "aws_db_instance" "db_instance" {
   username = "admin"
   password = random_string.rds_password.result
   db_subnet_group_name = aws_db_subnet_group.db_sub_group.name
-  vpc_security_group_ids = (module.vpc.vpc_ids)
+  vpc_security_group_ids = [module.vpc.default_security_group_id]
   multi_az = true
   publicly_accessible = false
   lifecycle {
