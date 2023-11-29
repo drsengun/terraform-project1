@@ -11,20 +11,20 @@ destroy:
 
 build-virginia: init
 
-		cd VPC/ENVS/us-east-1 && terraform workspace new virginia || terraform workspace select virginia && terraform apply -var-file ../ENVS/us-east-1/virginia.tfvars -auto-approve
+		cd VPC/ && terraform workspace new virginia || terraform workspace select virginia && terraform apply -var-file ../ENVS/us-east-1/virginia.tfvars -auto-approve
 
-		cd ASG/ENVS/us-east-1 && terraform workspace new virginia || terraform workspace select virginia && terraform apply -var-file ../ENVS/us-east-1/virginia.tfvars -auto-approve
+		cd ASG/ && terraform workspace new virginia || terraform workspace select virginia && terraform apply -var-file ../ENVS/us-east-1/virginia.tfvars -auto-approve
 
-		cd RDS/ENVS/us-east-1 && terraform workspace new virginia || terraform workspace select virginia && terraform apply -var-file ../ENVS/us-east-1/virginia.tfvars -auto-approve
+		cd RDS/ && terraform workspace new virginia || terraform workspace select virginia && terraform apply -var-file ../ENVS/us-east-1/virginia.tfvars -auto-approve
 
 
 destroy-virginia:
 
-		cd VPC/ENVS/us-east-1 terraform destroy -var-file ../ENVS/us-east-1/virginia.tfvars -auto-approve
+		cd VPC/ terraform destroy -var-file ../ENVS/us-east-1/virginia.tfvars -auto-approve
 
-		cd ASG/ENVS/us-east-1 terraform destroy -var-file ../ENVS/us-east-1/virginia.tfvars -auto-approve
+		cd ASG/ terraform destroy -var-file ../ENVS/us-east-1/virginia.tfvars -auto-approve
 
-		cd RDS/ENVS/us-east-1 terraform destroy -var-file ../ENVS/us-east-1/virginia.tfvars -auto-approve
+		cd RDS/ terraform destroy -var-file ../ENVS/us-east-1/virginia.tfvars -auto-approve
 
 
 build-california: init

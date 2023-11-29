@@ -3,6 +3,8 @@ resource "aws_key_pair" "terraform-project" {
   public_key = file("~/.ssh/id_rsa.pub")
 }
 
+
+# 
 data "aws_ami" "amazon-linux" {
   most_recent = true
   filter {
@@ -19,7 +21,7 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
-
+# Call VPC module
 module "vpc" {
   source = "../VPC/"
   region = var.region
@@ -43,7 +45,7 @@ resource "aws_launch_template" "as_conf" {
   image_id      = data.aws_ami.amazon-linux.id
   instance_type = "t2.micro"
   key_name      = "terraform-project"
-  user_data     = base64encode(file("userdata.sh"))
+  user_data     = filebase64("userdata.sh")
   lifecycle {
     create_before_destroy = true
   }
@@ -57,6 +59,7 @@ resource "aws_lb" "web-lb" {
   internal                   = true
   load_balancer_type         = "application"
   subnets                    = (module.vpc.public_subnets)
+  security_groups            = [aws_security_group.web-sg.id]
 }
 
 resource "aws_lb_target_group" "web-tg" {
@@ -94,4 +97,54 @@ resource "aws_autoscaling_attachment" "web-attach" {
 }
 
 
+# Create Web Security Group
+resource "aws_security_group" "web-sg" {
+  name        = "Web-SG"
+  description = "Allow HTTP inbound traffic"
+  vpc_id      = module.vpc.vpc_ids
 
+  ingress {
+    description = "HTTP from VPC"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "Web-SG"
+  }
+}
+
+# Create Application Security Group
+resource "aws_security_group" "webserver-sg" {
+  name        = "Webserver-SG"
+  description = "Allow inbound traffic from ALB"
+  vpc_id      = module.vpc.vpc_ids
+
+  ingress {
+    description     = "Allow traffic from web layer"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "Webserver-SG"
+  }
+}

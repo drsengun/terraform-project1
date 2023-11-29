@@ -1,3 +1,3 @@
-output "public_subnets_output" {
-  value = module.vpc.public_subnets
+output "webserver_sg_id" {
+  value = aws_security_group.webserver-sg.id
 }

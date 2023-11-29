@@ -35,7 +35,6 @@ module "vpc" {
   enable_dns_hostnames = true
   
   manage_default_security_group = true
-
   default_security_group_ingress = [
     {
       description = "HTTP"
