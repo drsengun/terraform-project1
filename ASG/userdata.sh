@@ -1,13 +1,22 @@
 #!/bin/bash
   # Update the system
-  yum -y update
+  sudo yum -y update
   # Install Apache web server
-  yum -y install httpd
+  sudo yum -y install httpd
   # Start Apache web server
-  systemctl start httpd
+  sudo systemctl start httpd
   # Enable Apache to start at boot
-  systemctl enable httpd
+  sudo systemctl enable httpd
 
-
-  #install mysql client
-  yum install -y mysql
+  set -xe
+  sudo yum install httpd php php-mysql*  wget  -y
+  sudo wget https://en-gb.wordpress.org/latest-en_GB.tar.gz
+  sudo tar -xf latest-en_GB.tar.gz
+  sudo rm -rf /var/www/html/*
+  sudo mv wordpress/* /var/www/html/
+  sudo chown -R apache:apache /var/www/html
+  echo "export WORDPRESS_DB_HOST=wordpressdb.bluegeezer.com" | sudo tee /etc/profile.d/wordpress.sh
+  echo "export WORDPRESS_DB_NAME=wordpress" | sudo tee -a /etc/profile.d/wordpress.sh
+  echo "export WORDPRESS_DB_USER=foo" | sudo tee -a /etc/profile.d/wordpress.sh
+  echo "export WORDPRESS_DB_PASSWORD=foobarbaz" | sudo tee -a /etc/profile.d/wordpress.sh
+  sudo systemctl restart httpd

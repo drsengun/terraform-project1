@@ -41,7 +41,8 @@ resource "aws_launch_template" "as_conf" {
   image_id      = data.aws_ami.amazon-linux.id
   instance_type = "t2.micro"
   key_name      = "terraform-project"
-  user_data     = filebase64("./ASG/userdata.sh")
+  user_data = file("${path.module}/userdata.sh")
+
   lifecycle {
     create_before_destroy = true
   }
