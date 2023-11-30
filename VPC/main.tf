@@ -30,7 +30,7 @@ module "vpc" {
   create_database_subnet_group = true
   enable_nat_gateway = true
   enable_vpn_gateway = false
-
+  
   enable_dns_support = true
   enable_dns_hostnames = true
   
