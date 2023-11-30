@@ -4,7 +4,7 @@ pull:
 init: pull
 	 terraform init
 
-plan-ohio: 
+ohio-plan: 
 
 		cd VPC/ && terraform workspace new ohio || terraform workspace select ohio && terraform plan  -var-file ../ENVS/us-east-2/ohio.tfvars
 

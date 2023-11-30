@@ -11,7 +11,7 @@ plan-california: init
 	terraform workspace new california || terraform workspace select california && terraform plan -var-file ../ENVS/us-west-1/california.tfvars
 
 
-plan-ohio: init
+ohio-plan: init
 	terraform workspace new ohio || terraform workspace select ohio && terraform plan -var-file ../ENVS/us-east-2/ohio.tfvars
 	
 plan-virginia: init
@@ -45,3 +45,11 @@ all: init
 
 destroy-all: init
 	 make ohio-destroy && make virginia-destroy && make california-destroy
+
+ohio-plan-1: init
+
+		cd ../VPC/ && terraform workspace new ohio || terraform workspace select ohio && terraform plan  -var-file ../ENVS/us-east-2/ohio.tfvars
+
+		cd ../ASG/ && terraform workspace new ohio || terraform workspace select ohio && terraform plan  -var-file ../ENVS/us-east-2/ohio.tfvars
+
+		cd ../RDS/ && terraform workspace new ohio || terraform workspace select ohio && terraform plan  -var-file ../ENVS/us-east-2/ohio.tfvars
