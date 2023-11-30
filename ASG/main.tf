@@ -21,11 +21,7 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
-# Call VPC module
-module "vpc" {
-  source = "../VPC/"
-  region = var.region
-}
+
 
 resource "aws_autoscaling_group" "web-asg" {
   launch_template {
@@ -45,7 +41,7 @@ resource "aws_launch_template" "as_conf" {
   image_id      = data.aws_ami.amazon-linux.id
   instance_type = "t2.micro"
   key_name      = "terraform-project"
-  user_data     = filebase64("userdata.sh")
+  user_data     = filebase64("./ASG/userdata.sh")
   lifecycle {
     create_before_destroy = true
   }
@@ -87,6 +83,11 @@ resource "aws_lb_listener" "web-listner" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.web-tg.arn
+    redirect {
+      port = 443
+      protocol = "HTTPS"
+      status_code = "HTTP_301"
+    }
   }
 }
 
@@ -148,3 +149,12 @@ resource "aws_security_group" "webserver-sg" {
     Name = "Webserver-SG"
   }
 }
+
+
+# Call VPC module
+module "vpc" {
+  source = "../VPC/"
+}
+
+
+
