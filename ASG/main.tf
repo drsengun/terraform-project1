@@ -31,7 +31,7 @@ resource "aws_autoscaling_group" "web-asg" {
   min_size            = 1
   max_size            = 3
   name                = "web-asg"
-  vpc_zone_identifier = (module.vpc.public_subnets)
+  vpc_zone_identifier = data.terraform_remote_state.remote.outputs.public_subnets
   desired_capacity    = 2
 
 }
@@ -54,7 +54,7 @@ resource "aws_lb" "web-lb" {
   name                       = "web-lb"
   internal                   = true
   load_balancer_type         = "application"
-  subnets                    = (module.vpc.public_subnets)
+  subnets                    = data.terraform_remote_state.remote.outputs.public_subnets
   security_groups            = [aws_security_group.web-sg.id]
 }
 
@@ -62,7 +62,7 @@ resource "aws_lb_target_group" "web-tg" {
   name     = "web-tg"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = module.vpc.vpc_ids
+  vpc_id   = data.terraform_remote_state.remote.outputs.vpc_ids
   
   health_check {
     interval            = 30
@@ -102,7 +102,7 @@ resource "aws_autoscaling_attachment" "web-attach" {
 resource "aws_security_group" "web-sg" {
   name        = "Web-SG"
   description = "Allow HTTP inbound traffic"
-  vpc_id      = module.vpc.vpc_ids
+  vpc_id      = data.terraform_remote_state.remote.outputs.vpc_ids
 
   ingress {
     description = "HTTP from VPC"
@@ -123,38 +123,5 @@ resource "aws_security_group" "web-sg" {
     Name = "Web-SG"
   }
 }
-
-# Create Application Security Group
-resource "aws_security_group" "webserver-sg" {
-  name        = "Webserver-SG"
-  description = "Allow inbound traffic from ALB"
-  vpc_id      = module.vpc.vpc_ids
-
-  ingress {
-    description     = "Allow traffic from web layer"
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
-    
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "Webserver-SG"
-  }
-}
-
-
-# Call VPC module
-module "vpc" {
-  source = "../VPC/"
-}
-
 
 
