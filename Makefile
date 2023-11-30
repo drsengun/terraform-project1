@@ -8,7 +8,6 @@ destroy:
 	terraform destroy
 
 
-
 build-virginia: init
 
 		cd VPC/ && terraform workspace new virginia || terraform workspace select virginia && terraform apply -auto-approve  -var-file  ../ENVS/us-east-1/virginia.tfvars
