@@ -42,4 +42,4 @@ jobs:
       - name: Run a apply
         working-directory: rds
         run: |
-          terraform apply --auto-approve
+          terraform destroy --auto-approve
