@@ -35,3 +35,8 @@ jobs:
         working-directory: vpc
         run: |
           terraform plan
+
+      - name: Run a apply
+        working-directory: vpc
+        run: |
+          terraform apply --auto-approve         
