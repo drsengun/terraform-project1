@@ -69,8 +69,3 @@ resource "aws_security_group" "rds_allow_rule" {
 
 
 
-module "vpc" {
-  source = "../VPC/"
-
-}
-

@@ -1,4 +1,4 @@
-data "terraform_remote_state" "main" {
+data "terraform_remote_state" "remote" {
 	backend = "s3"
         config = {
             bucket = "sdlc-terraform-backend-illiasoroka"
