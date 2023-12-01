@@ -22,14 +22,14 @@ jobs:
       - name: Initialize backend
         working-directory: rds
         run: |
-          terraform init
+          terraform init -reconfigure
 
 
       - name: Configure workspace
         working-directory: rds
         run: |
           terraform workspace new us || terraform workspace select us
-          terraform init
+          terraform init -reconfigure
 
 
 

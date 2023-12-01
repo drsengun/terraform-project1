@@ -20,14 +20,14 @@ jobs:
       - name: Initialize backend
         working-directory: vpc
         run: |
-          terraform init
+          terraform init -reconfigure
 
 
       - name: Configure workspace
         working-directory: vpc
         run: |
           terraform workspace new us || terraform workspace select us
-          terraform init
+          terraform init -reconfigure
 
 
 

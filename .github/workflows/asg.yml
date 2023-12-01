@@ -24,14 +24,14 @@ jobs:
       - name: Initialize backend
         working-directory: asg
         run: |
-          terraform init
+          terraform init -reconfigure
 
 
       - name: Configure workspace
         working-directory: asg
         run: |
           terraform workspace new us || terraform workspace select us
-          terraform init
+          terraform init -reconfigure
 
 
 
