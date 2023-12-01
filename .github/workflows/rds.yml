@@ -2,8 +2,10 @@ name: rds
 
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["vpc"]
+    types:
+      - completed
 
 
 jobs:
@@ -35,3 +37,9 @@ jobs:
         working-directory: rds
         run: |
           terraform plan
+
+
+      - name: Run a apply
+        working-directory: rds
+        run: |
+          terraform apply --auto-approve

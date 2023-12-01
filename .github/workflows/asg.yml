@@ -2,8 +2,12 @@ name: asg
 
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["rds"]
+    types:
+      - completed
+
+
 
 
 jobs:
@@ -35,3 +39,10 @@ jobs:
         working-directory: asg
         run: |
           terraform plan
+
+
+      - name: Run a apply
+        working-directory: asg
+        run: |
+          terraform apply --auto-approve
+

@@ -1,9 +1,8 @@
-data "terraform_remote_state" "remote" {
-  backend = "s3"
-  config = {
-    bucket = "company-wide-storage-illiasoroka"
-    key    = "path/to/my/1.tfstate"
-    region = "us-east-1"
-    }
-  }
-
+data "terraform_remote_state" "main" {
+	backend = "s3"
+        config = {
+            bucket = "sdlc-terraform-backend-illiasoroka"
+            key = "env:/us/path/to/my/vpc"
+            region = "us-east-1"
+	}
+}
