@@ -34,7 +34,7 @@ resource "aws_db_instance" "db_readers" {
   username = "admin"
   identifier                   = "db-reader-${count.index + 1}"
   password = random_string.rds_password.result
-  db_subnet_group_name = aws_db_subnet_group.db_sub_group.name
+  db_subnet_group_name = aws_db_subnet_group.default.name
   vpc_security_group_ids = [aws_security_group.rds_allow_rule.id]
   skip_final_snapshot = true
   publicly_accessible = true
