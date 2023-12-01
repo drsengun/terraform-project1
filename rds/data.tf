@@ -9,6 +9,6 @@ data "terraform_remote_state" "remote" {
 
 resource "aws_db_subnet_group" "default" {
   name       = "sdlc"
-  subnet_ids = data.terraform_remote_state.main.outputs.private_subnets
+  subnet_ids = data.terraform_remote_state.remote.outputs.private_subnets
   
 }
