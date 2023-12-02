@@ -3,7 +3,10 @@ name: vpc
 
 on:
   push:
-    branches: [ "main" ]
+    branches:  
+    - main 
+    - feature-*
+    
 
 
 jobs:
